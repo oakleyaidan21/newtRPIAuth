@@ -36,7 +36,7 @@ async function email(email, id) {
     port: 465,
     secure: true,
     auth: {
-      user: procces.env.USER,
+      user: process.env.USER,
       pass: process.env.PASS
     }
   });
@@ -124,6 +124,7 @@ client.on("message", receivedMessage => {
     return;
   }
 
+  //if in the bot channel
   if (receivedMessage.channel.id === channelID) {
     if (receivedMessage.content.includes("!register")) {
       //check if they're already registered
@@ -135,7 +136,6 @@ client.on("message", receivedMessage => {
       receivedMessage.author.send(
         "Please enter your full RPI e-mail address (ex: `jsmith@rpi.edu`)"
       );
-      receivedMessage.channel.send("message sent!");
       return;
     }
   }
