@@ -16,4 +16,6 @@ Put these values in a `.env` file in the root folder:
 | `USER`                  | email address that sends the verification emails                                                   |
 | `PASS`                  | password for the email address                                                                     |
 
+_If using a gmail account for the email, you'll need to sign into it on a browser first before running the code_
+
 To start, run `node main.js`
