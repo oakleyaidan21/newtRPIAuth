@@ -1,6 +1,6 @@
 # tRPI Authentication Bot
 
-Discord bot for authenticating RPI students in the tRPI Discord Server
+Simple Discord bot for authenticating RPI students in the teamRPI Discord Server
 
 ## Setup
 
