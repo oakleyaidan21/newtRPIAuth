@@ -118,6 +118,10 @@ client.on("guildMemberAdd", member => {
 
 //on receiving a message
 client.on("message", receivedMessage => {
+  let user =
+    receivedMessage.author.username +
+    "#" +
+    receivedMessage.author.discriminator;
   // Prevent bot from responding to its own messages
   if (receivedMessage.author == client.user) {
     return;
@@ -126,6 +130,7 @@ client.on("message", receivedMessage => {
   //if in the bot channel
   if (receivedMessage.channel.id === channelID) {
     if (receivedMessage.content.includes("!register")) {
+      console.log("!register from user:", user);
       //check if they're already registered
       if (checkRegistered(receivedMessage)) {
         receivedMessage.channel.send("Hey, you already are verified!");
@@ -141,8 +146,8 @@ client.on("message", receivedMessage => {
 
   //check for DM commands
   if (receivedMessage.channel.type === "dm") {
+    console.log("dm from user:", user, "content:", receivedMessage.content);
     //check to see if they already have the student role
-
     //check code they sent
     if (receivedMessage.content[0] === "?") {
       let id = checkUsersByCode(
@@ -192,15 +197,8 @@ client.on("message", receivedMessage => {
       );
 
       return;
-    } else if (receivedMessage.content.includes("?")) {
-      //check if the code is valid
     }
   }
-  let user =
-    receivedMessage.author.username +
-    "#" +
-    receivedMessage.author.discriminator;
-  console.log("from user:", user, "content:", receivedMessage.content);
 });
 
 //login
