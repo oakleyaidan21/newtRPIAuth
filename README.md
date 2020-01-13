@@ -4,7 +4,10 @@ Discord bot for authenticating RPI students in the tRPI Discord Server
 
 ## Setup
 
-Run `npm install`
+Run `npm install` for each of these dependencies: 
+- discord.js
+- nodemailer
+- dotenv
 
 Put these values in a `.env` file in the root folder:
 
