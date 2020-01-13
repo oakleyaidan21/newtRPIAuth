@@ -104,10 +104,9 @@ client.on("ready", () => {
 //on member joining
 client.on("guildMemberAdd", member => {
   console.log("member joined");
-  console.log("channels:", member.guild.channels);
   const channel = member.guild.channels.find(ch => ch.name === "test");
   if (!channel) {
-    console.log("failed");
+    console.log("failed channel search");
     return;
   }
   channel.send(
