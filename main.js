@@ -110,9 +110,9 @@ client.on("guildMemberAdd", member => {
     return;
   }
   channel.send(
-    "Welcome, @" +
-      { member } +
-      "! Type `!register` to receive verification instructions in your DMs. It might take a second for you to receive the message, so don't spam it."
+    "Welcome, <@" +
+      member.id +
+      ">! Type `!register` to receive verification instructions in your DMs. It might take a second for you to receive the message, so don't spam it."
   );
 });
 
