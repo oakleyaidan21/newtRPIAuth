@@ -40,6 +40,7 @@ async function email(email, id) {
       pass: process.env.PASS,
     },
   });
+  let success = false;
   try {
     let info = await transporter.sendMail({
       from: process.env.USER,
@@ -52,11 +53,11 @@ async function email(email, id) {
     console.log("message sent: %s", info.messageId);
     currentUsers.push({ id: id, code: code });
     console.log(currentUsers);
-    return true;
+    success = true;
   } catch (error) {
     console.log("error sending email,", error);
-    return false;
   }
+  return success;
 }
 
 function checkUsersById(id) {
@@ -193,20 +194,32 @@ client.on("message", (receivedMessage) => {
       //   return;
       // }
       //send email and add them to the current users
-      if (!email(receivedMessage.content, receivedMessage.author.id)) {
-        receivedMessage.author.send(
-          "An error occurred, shoot @CarrotCake#1337 a message"
-        );
-        return;
-      }
-
-      //give message
-      receivedMessage.author.send(
-        "Sent verification check to " +
-          receivedMessage.content +
-          ". Check your e-mail! Please enter the code you received, proceeded by an `?`. (ex: `?826380418`)"
+      // if (!email(receivedMessage.content, receivedMessage.author.id)) {
+      //   receivedMessage.author.send(
+      //     "An error occurred, shoot @CarrotCake#1337 a message"
+      //   );
+      //   return;
+      // }
+      // console.log(
+      //   "email:",
+      //   email(receivedMessage.content, receivedMessage.author.id)
+      // );
+      email(receivedMessage.content, receivedMessage.author.id).then(
+        (success) => {
+          if (!success) {
+            receivedMessage.author.send(
+              "An error occurred, shoot @CarrotCake#1337 a message"
+            );
+          } else {
+            //give message
+            receivedMessage.author.send(
+              "Sent verification check to " +
+                receivedMessage.content +
+                ". Check your e-mail! Please enter the code you received, proceeded by an `?`. (ex: `?826380418`)"
+            );
+          }
+        }
       );
-
       return;
     }
   }
