@@ -14,7 +14,7 @@ var currentUsers = [];
  */
 
 //creates a code for the user to verify themselves with
-String.prototype.hashCode = function() {
+String.prototype.hashCode = function () {
   var hash = 0;
   if (this.length == 0) {
     return hash;
@@ -37,20 +37,26 @@ async function email(email, id) {
     secure: true,
     auth: {
       user: process.env.USER,
-      pass: process.env.PASS
-    }
+      pass: process.env.PASS,
+    },
   });
-  let info = await transporter.sendMail({
-    from: process.env.USER,
-    to: email,
-    subject: "Team RPI Verification",
-    text:
-      "Send this code back to the bot. If there is a '-' at the beginning of the code, include that when you copy the code.\n" +
-      code
-  });
-  console.log("message sent: %s", info.messageId);
-  currentUsers.push({ id: id, code: code });
-  console.log(currentUsers);
+  try {
+    let info = await transporter.sendMail({
+      from: process.env.USER,
+      to: email,
+      subject: "Team RPI Verification",
+      text:
+        "Send this code back to the bot. If there is a '-' at the beginning of the code, include that when you copy the code.\n" +
+        code,
+    });
+    console.log("message sent: %s", info.messageId);
+    currentUsers.push({ id: id, code: code });
+    console.log(currentUsers);
+    return true;
+  } catch (error) {
+    console.log("error sending email,", error);
+    return false;
+  }
 }
 
 function checkUsersById(id) {
@@ -72,7 +78,7 @@ function checkUsersByCode(code) {
 }
 
 function checkRegistered(message) {
-  let role = message.guild.roles.find(role => role.name === "Student");
+  let role = message.guild.roles.find((role) => role.name === "Student");
   if (role) {
     if (message.member.roles.has(role.id)) {
       return true;
@@ -102,9 +108,9 @@ client.on("ready", () => {
 });
 
 //on member joining
-client.on("guildMemberAdd", member => {
+client.on("guildMemberAdd", (member) => {
   console.log("member joined");
-  const channel = member.guild.channels.find(ch => ch.name === "bot-channel");
+  const channel = member.guild.channels.find((ch) => ch.name === "bot-channel");
   if (!channel) {
     console.log("failed channel search");
     return;
@@ -117,7 +123,7 @@ client.on("guildMemberAdd", member => {
 });
 
 //on receiving a message
-client.on("message", receivedMessage => {
+client.on("message", (receivedMessage) => {
   let user =
     receivedMessage.author.username +
     "#" +
@@ -159,9 +165,9 @@ client.on("message", receivedMessage => {
         //give them role in server
         let guild = client.guilds.get(guildID);
 
-        let role = guild.roles.find(r => r.name == "Student");
+        let role = guild.roles.find((r) => r.name == "Student");
         let member = guild.members.find(
-          m => m.user.username === receivedMessage.author.username
+          (m) => m.user.username === receivedMessage.author.username
         );
         member.addRole(role).catch(console.error);
 
@@ -180,14 +186,19 @@ client.on("message", receivedMessage => {
     }
     if (receivedMessage.content.includes("@rpi.edu")) {
       //check if they're in the current list of users
-      if (checkUsersById(receivedMessage.author.id) !== -1) {
+      // if (checkUsersById(receivedMessage.author.id) !== -1) {
+      //   receivedMessage.author.send(
+      //     "There should already be a verification email in your inbox. Have you tried checking your spam? If it seems it wasn't sent at all, message @CarrotCake#1337"
+      //   );
+      //   return;
+      // }
+      //send email and add them to the current users
+      if (!email(receivedMessage.content, receivedMessage.author.id)) {
         receivedMessage.author.send(
-          "There should already be a verification email in your inbox. Have you tried checking your spam? If it seems it wasn't sent at all, message @CarrotCake#1337"
+          "An error occurred, shoot @CarrotCake#1337 a message"
         );
         return;
       }
-      //send email and add them to the current users
-      email(receivedMessage.content, receivedMessage.author.id);
 
       //give message
       receivedMessage.author.send(

@@ -4,8 +4,9 @@ Simple Discord bot for authenticating RPI students in the teamRPI Discord Server
 
 ## Setup
 
-Run `npm install` for each of these dependencies: 
-- discord.js
+Run `npm install` for each of these dependencies:
+
+- discord.js@11.5.1 (other versions will break the bot. you can refactor if you want, though)
 - nodemailer
 - dotenv
 
