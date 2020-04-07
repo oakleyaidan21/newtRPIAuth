@@ -193,17 +193,8 @@ client.on("message", (receivedMessage) => {
       //   );
       //   return;
       // }
+
       //send email and add them to the current users
-      // if (!email(receivedMessage.content, receivedMessage.author.id)) {
-      //   receivedMessage.author.send(
-      //     "An error occurred, shoot @CarrotCake#1337 a message"
-      //   );
-      //   return;
-      // }
-      // console.log(
-      //   "email:",
-      //   email(receivedMessage.content, receivedMessage.author.id)
-      // );
       email(receivedMessage.content, receivedMessage.author.id).then(
         (success) => {
           if (!success) {
