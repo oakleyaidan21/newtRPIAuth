@@ -1,0 +1,14 @@
+{
+  "name": "newtrpiauth",
+  "description": "discord bot for verifying students in the tRPI Discord server",
+  "version": "0.0.0",
+  "main:": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "discord.js": "11.5.1",
+    "nodeMailer": "6.4.6",
+    "dotenv": "8.2.0"
+  }
+}
