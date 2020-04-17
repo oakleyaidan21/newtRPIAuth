@@ -32,7 +32,7 @@ async function email(email, id) {
   //get code
   let code = email.hashCode();
   let transporter = nodemailer.createTransport({
-    service: "AOL",
+    service: "Gmail",
     auth: {
       user: process.env.USER,
       pass: process.env.PASS,
