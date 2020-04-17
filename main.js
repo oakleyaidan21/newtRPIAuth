@@ -32,9 +32,7 @@ async function email(email, id) {
   //get code
   let code = email.hashCode();
   let transporter = nodemailer.createTransport({
-    host: "smtp.verizon.net",
-    port: 465,
-    secure: true,
+    service: "AOL",
     auth: {
       user: process.env.USER,
       pass: process.env.PASS,
