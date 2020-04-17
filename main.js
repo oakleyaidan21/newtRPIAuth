@@ -32,7 +32,7 @@ async function email(email, id) {
   //get code
   let code = email.hashCode();
   let transporter = nodemailer.createTransport({
-    host: "imap.aol.com",
+    host: "smtp.verizon.net",
     port: 465,
     secure: true,
     auth: {
